@@ -139,10 +139,9 @@ void getFileDim(FILE *ptr, int *maxRow, int *maxCol) {
   rewind(ptr);
 }
 
+// Completed
 void fileToIntMat(FILE *ptr, int maxRow, int maxCol, int arr[][maxCol]) {
-  char buff[maxCol+1];
-
-  printf("TestCol=%d\n", maxCol);
+  char buff[maxCol+3];
 
   int countCol=0;
   int countRow=0;
@@ -150,13 +149,47 @@ void fileToIntMat(FILE *ptr, int maxRow, int maxCol, int arr[][maxCol]) {
     //printf("TEST=%s\n",buff);
     for (int i=0; i<maxCol; i++) {
       if (buff[i] >= '0' && buff[i] <= '9') {
-        printf("%c",buff[i]);
-      } else {
+        //printf("i=%d\n", i);
+        int tInt = (int) (((int)(buff[i] - '0')))*10 + (int)(buff[i+1] - '0');
+
+        //printf("tInt=%d\tcountCol=%d\n", tInt, countCol);
+        arr[countRow][countCol] = tInt;
         countCol++;
+        i++;
       }
     }
-    printf("\n");
+    //printf("\n");
     //printf("TEST: %s\n", buff);
     countCol=0;
+    countRow++;
   }
+}
+
+double maxTriangPathSum(int maxRow, int maxCol, int arr[][maxCol]) {
+
+  double sum = (double) arr[0][0];
+
+  int rowLen = 0;
+  for (int i=0; i<maxCol; i++) {
+    if (arr[maxRow-1][i] != -1) {
+      rowLen++;
+    }
+  }
+
+  for (int i=maxRow-1; i>=0; i--) {
+    for (int j=0; j<rowLen; j++) {
+      if (arr[i][j] != -1) {
+        //printf("%d", arr[i][j]);
+
+        if (arr[i][j] > arr[i][j+1]) {
+          arr[i-1][j] += arr[i][j];
+        } else {
+          arr[i-1][j] += arr[i][j+1];
+        }
+
+      }
+    }
+    rowLen--;
+  }
+  return (double) arr[0][0];
 }

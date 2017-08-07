@@ -162,25 +162,15 @@ double P018() {
 
 	int arr[maxRow][maxCol];
 
+  // -1 so we know what to skip over.
 	for (int i=0; i<maxRow; i++) {
 		for (int j=0; j<maxCol; j++) {
-			arr[i][j]=0;
+			arr[i][j]=-1;
 		}
 	}
 
 	fileToIntMat(file, maxRow, maxCol, arr);
-
-	printf("maxRow=%d\tmaxCol=%d\n", maxRow, maxCol);
-	/*
-	for (int i=0; i<maxRow; i++) {
-		for (int j=0; j<maxCol; j++) {
-			printf("%d",arr[i][j]);
-		}
-		printf(" - test\n");
-	}
-*/
-  //fileToIntArr(fileStr, ptr);
-  return (double) 1;
+  return maxTriangPathSum(maxRow, maxCol, arr);
 }
 
 void result(double res) {
