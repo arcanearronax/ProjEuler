@@ -173,6 +173,29 @@ double P018() {
   return maxTriangPathSum(maxRow, maxCol, arr);
 }
 
+double P067() {
+  char fileStr[15] = "./libs/P067.txt";
+  FILE *file = fopen(fileStr, "r");
+  int maxRow = 0;
+  int maxCol = 0;
+
+  getFileDim(file, (int *)&maxRow, (int *)&maxCol);
+
+  int arr[maxRow][maxCol];
+
+  // -1 so we know what to skip over.
+  for (int i=0; i<maxRow; i++) {
+    for (int j=0; j<maxCol; j++) {
+      arr[i][j]=-1;
+    }
+
+    return maxTriangPathSum(maxRow, maxCol, arr);
+  }
+
+  fileToIntMat(file, maxRow, maxCol, arr);
+  return maxTriangPathSum(maxRow, maxCol, arr);
+}
+
 void result(double res) {
 	printf("Result: %.0lf\n", res);
 }
@@ -223,6 +246,8 @@ void main(int argc, char *argv[]) {
           result(P017());
         } else if (strcmp(argv[2],"18") == 0) {
           result(P018());
+        } else if (strcmp(argv[2],"67") == 0) {
+          result(P067());
         } else {
 					printf("Not Solved\n");
 				}
