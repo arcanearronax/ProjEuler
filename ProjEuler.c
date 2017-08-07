@@ -177,6 +177,17 @@ double P019() {
   return countSundays();
 }
 
+double P020() {
+  double num = (double) 123;
+  int digits = 200;//numDig(bound);
+  int arr[digits];
+  int *ptr = (int *)&arr;
+
+  doubleToArr(num, ptr, digits);
+
+  return (double) 1;
+}
+
 void result(double res) {
 	printf("Result: %.0lf\n", res);
 }
@@ -229,6 +240,8 @@ void main(int argc, char *argv[]) {
           result(P018());
         } else if (strcmp(argv[2],"19") == 0) {
           result(P019());
+        } else if (strcmp(argv[2],"20") == 0) {
+          result(P020());
         } else {
 					printf("Not Solved\n");
 				}

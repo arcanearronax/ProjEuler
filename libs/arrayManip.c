@@ -1,8 +1,3 @@
-double thingShit(int dimX, int dimY, int *point[dimX][dimY], int nums) {
-  return (double) *point[0][1];
-}
-
-
 double largestHorizProd(int dimX, int dimY, int *point[dimX][dimY], int nums) {
   double temp=1;
   double prod=0;
@@ -172,4 +167,27 @@ double expArrInt(int *arr, int size, int num, int exp) {
     prodIntArr(arr, size, num);
   }
   return retDoubleFromArr(arr, size);
+}
+
+void doubleToArr(double num, int *arr, int digits) {
+
+  for (int i=0; i<digits; i++) {
+    arr[i] = 0;
+  }
+
+  double temp = num;
+  int count=0;
+  while (temp > 1) {
+    arr[digits-1-count]=(int) (fmod(temp, 10));
+    //printf("");
+    temp /= 10;
+    count++;
+  }
+
+  printf("TEST HERE\n");
+  for (int i=0; i<count+1; i++) {
+    printf("%d", arr[count-digits+i]);
+  }
+  printf("\n");
+
 }
