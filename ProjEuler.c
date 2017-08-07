@@ -153,13 +153,32 @@ double P017() {
 }
 
 double P018() {
-  char fileStr[20] = "./libs/P018.txt";
+  char fileStr[15] = "./libs/P018.txt";
   FILE *file = fopen(fileStr, "r");
   int maxRow = 0;
   int maxCol = 0;
 
-  getFileDim(file, maxRow, maxCol);
+  getFileDim(file, (int *)&maxRow, (int *)&maxCol);
 
+	int arr[maxRow][maxCol];
+
+	for (int i=0; i<maxRow; i++) {
+		for (int j=0; j<maxCol; j++) {
+			arr[i][j]=0;
+		}
+	}
+
+	fileToIntMat(file, maxRow, maxCol, arr);
+
+	printf("maxRow=%d\tmaxCol=%d\n", maxRow, maxCol);
+	/*
+	for (int i=0; i<maxRow; i++) {
+		for (int j=0; j<maxCol; j++) {
+			printf("%d",arr[i][j]);
+		}
+		printf(" - test\n");
+	}
+*/
   //fileToIntArr(fileStr, ptr);
   return (double) 1;
 }

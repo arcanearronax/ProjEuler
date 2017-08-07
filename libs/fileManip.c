@@ -98,30 +98,65 @@ double sumNumsFile(char *name, int rows, int len) {
   return (double) 1;
 }
 
-void getFileDim(FILE *ptr, int maxRow, int maxCol) {
+void getFileDim(FILE *ptr, int *maxRow, int *maxCol) {
 
-  int len = 1000;
+  int len = 10000;
   char buff[len];
 
+  for (int i=0; i<len; i++) {
+    buff[i]='\0';
+  }
 
+  int countCol = 0;
   do {
-    for (int i=0; i<len; i++) {
-      buff[i]='!';
+    if (strcmp(buff,"\0\n") != 0) {
+      *maxRow += 1;
     }
 
-    printf("%s\n",buff);
+    for (int i=0; i<len; i++) {
+      countCol++;
+
+      if (buff[i] == '\0') {
+        break;
+      }
+
+      if (buff[i] != '\n') {
+        //printf("test: %c\n",buff[i]);
+        if (countCol > *maxCol) {
+          *maxCol = countCol;
+        }
+      }
+    }
+    countCol=0;
+
+    for (int i=0; i<len; i++) {
+      buff[i]='\0';
+    }
+
+    //printf("maxRow=%d,\tmaxCol=%d\n",maxRow, maxCol);
 
   } while (fgets(buff, sizeof(buff), ptr));
-
+  rewind(ptr);
 }
 
-void fileToIntArr(char fileStr[20], int *arr[], int maxRow, int maxCol) {
+void fileToIntMat(FILE *ptr, int maxRow, int maxCol, int arr[][maxCol]) {
+  char buff[maxCol+1];
 
-  FILE *ptr = fopen(fileStr, "r");
+  printf("TestCol=%d\n", maxCol);
 
-  char buff[maxCol*2];
-
-  while (fgets(buff, sizeof(buff), file)) {
-    printf("%s\n",buff);
+  int countCol=0;
+  int countRow=0;
+  while (fgets(buff, sizeof(buff), ptr)) {
+    //printf("TEST=%s\n",buff);
+    for (int i=0; i<maxCol; i++) {
+      if (buff[i] >= '0' && buff[i] <= '9') {
+        printf("%c",buff[i]);
+      } else {
+        countCol++;
+      }
+    }
+    printf("\n");
+    //printf("TEST: %s\n", buff);
+    countCol=0;
   }
 }
