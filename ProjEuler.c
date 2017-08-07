@@ -174,7 +174,7 @@ double P018() {
 }
 
 double P019() {
-  return (double) 1;
+  return countSundays();
 }
 
 void result(double res) {
