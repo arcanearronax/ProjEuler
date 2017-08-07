@@ -173,6 +173,10 @@ double P018() {
   return maxTriangPathSum(maxRow, maxCol, arr);
 }
 
+double P019() {
+  return (double) 1;
+}
+
 void result(double res) {
 	printf("Result: %.0lf\n", res);
 }
@@ -223,6 +227,8 @@ void main(int argc, char *argv[]) {
           result(P017());
         } else if (strcmp(argv[2],"18") == 0) {
           result(P018());
+        } else if (strcmp(argv[2],"19") == 0) {
+          result(P019());
         } else {
 					printf("Not Solved\n");
 				}
