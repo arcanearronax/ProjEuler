@@ -177,17 +177,44 @@ void doubleToArr(double num, int *arr, int digits) {
 
   double temp = num;
   int count=0;
-  while (temp > 1) {
+  while (temp >= 1) {
     arr[digits-1-count]=(int) (fmod(temp, 10));
     //printf("");
     temp /= 10;
     count++;
   }
+}
 
-  printf("TEST HERE\n");
-  for (int i=0; i<count+1; i++) {
-    printf("%d", arr[count-digits+i]);
+void arrProd(int *arr1, int *arr2) {
+  // Ehh...
+}
+
+void largeNumFactorial(double num, int *arr, int digits) {
+  doubleToArr(num, arr, digits);
+
+  for (int i=2; i<(int) num; i++) {
+    for (int j=digits-1; j>=0; j--) {
+      if (arr[j] != 0) {
+        int temp=arr[j]*i;
+        arr[j] = temp;
+      }
+    }
+
+    for (int j=digits-1; j>=0; j--) {
+      if (arr[j] > 9) {
+        arr[j-1] += (arr[j]/10);
+        arr[j] = (arr[j]%10);
+      }
+    }
   }
-  printf("\n");
+}
 
+double sumArr(int *arr, int digits) {
+  double res=0;
+
+  for (int i=0; i<digits; i++) {
+    res += (double) arr[i];
+  }
+
+  return res;
 }

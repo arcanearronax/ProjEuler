@@ -178,14 +178,13 @@ double P019() {
 }
 
 double P020() {
-  double num = (double) 123;
+  double num = (double) 100;
   int digits = 200;//numDig(bound);
   int arr[digits];
   int *ptr = (int *)&arr;
 
-  doubleToArr(num, ptr, digits);
-
-  return (double) 1;
+  largeNumFactorial(num, ptr, digits);
+  return sumArr(arr, digits);;
 }
 
 void result(double res) {
