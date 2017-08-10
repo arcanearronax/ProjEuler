@@ -187,6 +187,11 @@ double P020() {
   return sumArr(arr, digits);;
 }
 
+double P021() {
+	int bound=10000;
+	return sumAmicableNumbers(bound);
+}
+
 void result(double res) {
 	printf("Result: %.0lf\n", res);
 }
@@ -241,7 +246,9 @@ void main(int argc, char *argv[]) {
           result(P019());
         } else if (strcmp(argv[2],"20") == 0) {
           result(P020());
-        } else {
+        } else if (strcmp(argv[2],"21") == 0) {
+					result(P021());
+				} else {
 					printf("Not Solved\n");
 				}
 			} else {

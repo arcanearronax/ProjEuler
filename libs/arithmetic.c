@@ -56,22 +56,6 @@ double largestFactor(double num) {
 	return soln;
 }
 
-//Returns an array of primes
-double *getPrimeArray(double bound) {
-
-}
-
-//BEWARE: RECURSION
-double *getFactors(double num) {
-
-    double temp[(int) num];
-
-    for (int i=0; i < num; i++) {
-        temp[i] = i;
-    }
-
-}
-
 int isPrime(double num) {
 
     double fact = 2;
@@ -145,6 +129,7 @@ int isPalindrome(int num) {
     return pal;
 }
 
+//Need to rename this...
 int upperBound(int maxDig) {
 
     //Get the largest possible palindrome based on digit count
@@ -187,20 +172,6 @@ int largestPalindrome(int xNumDig, int yNumDig) {
     }
 
     return result;
-
-}
-
-int primesInt(int bound, int primes[bound]) {
-
-    int len = (int) sizeof(&primes)/sizeof(primes[0]);
-
-    printf("len=%d\n", len);
-
-    for (int i=0; i<len; i++) {
-
-        primes[i] = i;
-
-    }
 
 }
 
@@ -253,7 +224,6 @@ double squareSum(double min, double max) {
 }
 
 double primeByIndex(int index) {
-    //printf("SHIT\n");
     int idx=0;
     double num=1;
     while (idx<index) {
@@ -433,7 +403,62 @@ double longestCollatzChain(int bound) {
   return res;
 }
 
-//Let's apply our favorite theorem
-double sumDigBasePower(int base, int power) {
-  return (double) 1;
+/*
+ *  d(n) = sum of proper divisors of n
+ *  If d(a) = b and d(b) = a and a != b
+ *  then a and b are amicable.
+ *
+ */
+
+double sumDiv(int num) {
+  int divs[num];
+
+  for (int i=0; i<num; i++) {
+    divs[i]=0;
+  }
+
+  for (int i=1; i<=num/2; i++) {
+    if (num % i == 0) {
+      divs[i-1]=i;
+      divs[(num/i)-1]=num/i;
+    }
+  }
+
+  double res=0;
+  for (int i=0; i<num-1; i++) {
+    res += (double) divs[i];
+  }
+
+  return res;
+}
+
+double sumAmicableNumbers(int bound) {
+
+  double amInd[bound];
+
+  for (int i=0; i<bound; i++) {
+    amInd[i]=0;
+  }
+
+  for (int i; i<bound; i++) {
+    amInd[i] = sumDiv(i+1);
+  }
+
+  double res=0;
+  for (int i=0; i<bound; i++) {
+    int a = i+1;
+    int b = amInd[i];
+
+    if (b > 0) {
+      if (b <= bound) {
+        if (a == amInd[b-1] && a!=b) {
+          res += (double) a;
+          res += (double) b;
+          amInd[i]=0;
+          amInd[b-1]=0;
+        }
+      }
+    }
+  }
+  return res;
 }
