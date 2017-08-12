@@ -218,3 +218,26 @@ double sumArr(int *arr, int digits) {
 
   return res;
 }
+
+void alphabetizeNames(FILE *filePtr, int nameCount, int maxLen, char arr[][maxLen]) {
+  char temp[nameCount][maxLen];
+  for (int i=0; i<nameCount; i++) {
+    for (int j=0; j<maxLen; j++) {
+      temp[i][j]='!';
+    }
+  }
+
+  int count=65;
+
+  for (int i=0; i<nameCount; i++) {
+    for (int j=0; j<maxLen; j++) {
+      if (arr[i][0] != '!') {
+        if (arr[j][0] != '!') {
+          if (strcmp()) { 
+
+      }
+    }
+  }
+
+
+}

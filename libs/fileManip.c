@@ -193,3 +193,48 @@ double maxTriangPathSum(int maxRow, int maxCol, int arr[][maxCol]) {
   }
   return (double) arr[0][0];
 }
+
+void getNameMaxes(FILE *filePtr, int *maxLen, int *nameCount) {
+  char buff = fgetc(filePtr);
+
+  int tNameCount=1;
+  int maxNameLen=0;
+  int curNameLen=0;
+  do {
+    //printf("\tBREAK\n");
+    if (buff != '"') {
+      if (buff == ',') {
+        tNameCount++;
+        if (curNameLen > maxNameLen) {
+          maxNameLen = curNameLen;
+        }
+        curNameLen=0;
+      } else {
+        curNameLen++;
+        //printf("CurNameLen: %c\n",buff);
+      }
+    }
+  } while ((buff=fgetc(filePtr)) != EOF);
+
+  maxLen[0] = maxNameLen;
+  nameCount[0] = tNameCount;
+  rewind(filePtr);
+}
+
+void readInNames(FILE *filePtr, int maxLen, char arr[][maxLen]) {
+  char buff = fgetc(filePtr);
+
+  int row=0;
+  int col=0;
+  do {
+    if (buff != '"') {
+      if (buff == ',') {
+        row++;
+        col=0;
+      } else {
+        arr[row][col] = buff;
+        col++;
+      }
+    }
+  } while ((buff=fgetc(filePtr)) != EOF);
+}

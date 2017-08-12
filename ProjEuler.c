@@ -192,6 +192,34 @@ double P021() {
 	return sumAmicableNumbers(bound);
 }
 
+double P022() {
+	char fileStr[17] = "./libs/tP022.txt";
+	int nameCount=0;
+	int maxLen=0;
+	FILE *filePtr = fopen(fileStr,"r");
+
+	getNameMaxes(filePtr, (int *)&maxLen, (int *)&nameCount);
+
+	printf("Count: %d\tLen: %d\n", nameCount, maxLen);
+
+	char arr[nameCount][maxLen];
+	char *arrPtr = (char *)&arr;
+
+	for (int i=0; i<nameCount; i++) {
+		for (int j=0; j<maxLen; j++) {
+			arr[i][j] = '!';
+		}
+	}
+
+	readInNames(filePtr, maxLen, arr);
+
+	
+
+	//;
+
+	return (double) 1;
+}
+
 void result(double res) {
 	printf("Result: %.0lf\n", res);
 }
@@ -248,6 +276,8 @@ void main(int argc, char *argv[]) {
           result(P020());
         } else if (strcmp(argv[2],"21") == 0) {
 					result(P021());
+				} else if (strcmp(argv[2],"22") == 0) {
+					result(P022());
 				} else {
 					printf("Not Solved\n");
 				}
