@@ -1,51 +1,110 @@
 #include <math.h>
 
+/*
+ *  arithmetic.c
+ *
+ *  Contains functions and structs relevant to
+ *  arithmetic calculations. Relies on math.h.
+ *
+ *  Functions should include some indication of
+ *  which problem relies on it.
+ *
+ *
+ */
+
+/*
+ *  ***********************************************
+ *  ******************* STRUCTS *******************
+ *  ***********************************************
+ */
+
+/*
+ *  Meant to store a triplet of longs.
+ *  Relies: P009
+ */
 typedef struct {
-  double a;
-  double b;
-  double c;
+  long a;
+  long b;
+  long c;
 } Triplet;
 
-//Pass the smaller of the two numbers first
-int sumMultiples(int n1, int n2, int bound) {
+/*
+ *  ***********************************************
+ *  ****************** FUNCTIONS ******************
+ *  ***********************************************
+ */
+
+/*  Relies: P001
+ *  This is than breaking up the problem.
+ *  Returns -1 in case of error
+ */
+long sumMultiples(long n1, long n2, long bound) {
+
+  if (n1 < 0 || n2 < 0 || bound < 0 || n1 > bound || n2 > bound) {
+    printf("Invalid Values - sumMultiples - num1=%ld, num2=%ld, bound=%ld\n", n1, n2, bound);
+    return (long) -1;
+  }
 
 	//Let's make sure n1 <= n2
 	if (n1 > n2) {
-		int ntemp = n1;
+		long ntemp = n1;
 		n1 = n2;
 		n2 = ntemp;
 	}
 
-	int sum = 0;
-	for (int i=n1; i<bound; i++) {
-		if ((i % n1 == 0) || (i % n2 == 0)) {
+	long sum = 0;
+  long i;
+	for (i=n1; i<bound; i+=1) {
+		if ((fmod(i,n1) == 0) || (fmod(i,n2) == 0)) {
 			sum += i;
+
+      if (sum < 0) {
+        return (long) -1;
+      }
 		}
 	}
 
 	return sum;
 }
 
-//Indexed 0 at the first 1
-int fibonacciNum(int idx) {
+/*
+ *  Relies: P002
+ *  Indexed first 1 at 0
+ *  Returns -1 in case of error
+ */
+long fibonacciNum(long idx) {
 
-	int n1 = 0;
-	int n2 = 1;
-	int ntemp = 0;
+  if (idx < 0) {
+    printf("Invalid Value - fibonacciNum - idx=%d\n",idx);
+    return (long) -1;
+  }
 
-	for (int i = 0; i<idx; i++) {
+	long n1 = 0;
+	long n2 = 1;
+	long ntemp = 0;
+
+  long i;
+	for (i = 0; i<idx; i+=1) {
 		ntemp = n1+n2;
 		n1 = n2;
 		n2 = ntemp;
+    // Just in case we go overboard
+    if (n2 < 0) {
+      return (long) -1;
+    }
+
 	}
 	return n2;
 }
 
-//Returns -1 if no factor found
-double largestFactor(double num) {
+/*
+ *  Relies: P003
+ * Returns -1 if no factor found
+ */
+long largestFactor(long num) {
 
-	double inc = 2;
-	double soln = -1;
+	long inc = 2;
+	long soln = -1;
 	while (inc <= (num / 2)) {
 
 		if (fmod(num,inc) == 0) {
@@ -74,7 +133,12 @@ int isPrime(double num) {
     return div;
 }
 
-//Return the largest prime factor
+/*
+ *  Relies: P003
+ *  Requires: num >
+ *  Return the largest prime factor
+ *  Return -1 if the factor isn't found
+ */
 double largestPrimeFactor(double num) {
 
     double div = 1;
@@ -318,7 +382,7 @@ void createPrimeArray(int *primes, int limit) {
   }
 }
 
-long long sumPrimesLessOrEqual(int limit) {
+long sumPrimesLessOrEqual(int limit) {
   int primes[limit];
   createPrimeArray(primes, limit);
 
@@ -326,7 +390,7 @@ long long sumPrimesLessOrEqual(int limit) {
   //Start at 1 since we have 1 in the array
   for (int i=1; i<limit; i++) {
     if (primes[i] != 0) {
-      sum+= (long long)primes[i];
+      sum+= (long)primes[i];
     }
   }
 

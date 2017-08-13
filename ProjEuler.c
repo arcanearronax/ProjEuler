@@ -1,55 +1,73 @@
-#include "ProjEuler.h"
+ #include "ProjEuler.h"
 
-double P001() {
-	return (double)sumMultiples(3,5,1000);
+/*
+ *	ProjEuler.c
+ *
+ *	This just needs to be compiled. It imports
+ *	everything automatically.
+ *
+ *	Solutions are long, unless otherwise necessary.
+ *	Naming convention is P###() and vars should be
+ *	set for parameter values.
+ *
+ */
+
+//Checked
+long P001() {
+	long num1 = 3;
+	long num2 = 5;
+	long bound = 1000;
+	return sumMultiples(num1,num2,bound);
 }
 
-double P002() {
-	int limit = 4000000;
+//Checked
+long P002() {
+	long limit = 4000000;
 
-	int val=0;
-	int sum=0;
-	int index=1;
+	long val=0;
+	long sum=0;
+	long index=1;
 
 	while (val < limit) {
-		if (val%2 == 0) {
+		if (fmod(val,2) == 0) {
 			sum += val;
 		}
 
 		val = fibonacciNum(index);
-		index++;
+		index+=1;
 	}
-	return (double) sum;
+	return sum;
 }
 
-double P003() {
-	double num=600851475143;
+//
+long P003() {
+	long num=600851475143;
 	return largestPrimeFactor(num);
 }
 
-double P004() {
+long P004() {
 	int maxDig=3;
-	return (double) largestPalindrome(maxDig,maxDig);
+	return (long) largestPalindrome(maxDig,maxDig);
 }
 
-double P005() {
+long P005() {
 	int min=1;
 	int max=20;
-	return (double) leastCommonMult(min, max);
+	return (long) leastCommonMult(min, max);
 }
 
-double P006() {
-	double min=1;
-	double max=100;
+long P006() {
+	long min=1;
+	long max=100;
 	return (squareSum(min,max) - sumSquare(min,max));
 }
 
-double P007() {
+long P007() {
 	int index=10001;
 	return primeByIndex(index);
 }
 
-double P008() {
+long P008() {
 	int nums[1000];
   int *point;
   point =(int *)&nums;
@@ -57,19 +75,19 @@ double P008() {
 	return prodAdjNums(nums);
 }
 
-double P009() {
-  double sum=1000;
+long P009() {
+  long sum=1000;
 	return prodPythTripSum(sum);
 }
 
-double P010() {
+long P010() {
   //int limit=2000000;
   //return sumPrimesLessOrEqual(limit);
   int limit=2000000;
   return sumPrimesLessOrEqual(limit);
 }
 
-double P011() {
+long P011() {
 
   int dimX=20;
   int dimY=20;
@@ -84,16 +102,16 @@ double P011() {
 
 
 
-  //return (double) thingShit(dimX, dimY, point, nums);
+  //return (long) thingShit(dimX, dimY, point, nums);
   return largestAdjProd(dimX, dimY, point, nums);
 }
 
-double P012() {
-  double divs=500;
+long P012() {
+  long divs=500;
   return infinumTriNumByDiv(divs);
 }
 
-double P013() {
+long P013() {
   int rows=100;
   int len=50;
   char *input="./libs/input.txt";
@@ -107,12 +125,12 @@ double P013() {
 	return arrToDouble(rows, sum);
 }
 
-double P014() {
+long P014() {
   int bound=1000000;
   return longestCollatzChain(bound);
 }
 
-double P015() {
+long P015() {
   Grid temp;
   temp.maxX=20;
   temp.maxY=20;
@@ -121,7 +139,7 @@ double P015() {
   return lattPaths(grid);
 }
 
-double P016() {
+long P016() {
   int base=2;
   int exp=1000;
 
@@ -133,7 +151,7 @@ double P016() {
   int *point;
   point = (int *) &arr;
 
-  double temp = expArrInt(arr, exp, base, exp);
+  long temp = expArrInt(arr, exp, base, exp);
 
   //printArr(arr, exp);
 
@@ -145,14 +163,14 @@ double P016() {
   return temp;
 }
 
-double P017() {
+long P017() {
   int min=1;
   int max=1000;
 
-  return (double) largestNumLetCount(min, max);
+  return (long) largestNumLetCount(min, max);
 }
 
-double P018() {
+long P018() {
   char fileStr[15] = "./libs/P018.txt";
   FILE *file = fopen(fileStr, "r");
   int maxRow = 0;
@@ -173,12 +191,12 @@ double P018() {
   return maxTriangPathSum(maxRow, maxCol, arr);
 }
 
-double P019() {
+long P019() {
   return countSundays();
 }
 
-double P020() {
-  double num = (double) 100;
+long P020() {
+  long num = (long) 100;
   int digits = 200;//numDig(bound);
   int arr[digits];
   int *ptr = (int *)&arr;
@@ -187,25 +205,39 @@ double P020() {
   return sumArr(arr, digits);;
 }
 
-double P021() {
-	int bound=10000;
+long P021() {
+	int bound=1000;
 	return sumAmicableNumbers(bound);
 }
 
-void result(double res) {
-	printf("Result: %.0lf\n", res);
+void result(long res) {
+	printf("Result: %ld\n", res);
 }
 
-void resultLL(long long res) {
-  printf("Result: %lld\n", res);
+void resultL(long res) {
+  printf("Result: %ld\n", res);
+}
+
+void runTime(int dur) {
+	float temp;
+	// There's gotta be a better way to do this, but that's for
+	if (dur < 1000) {
+		temp = ((float) 1000* dur) / ((float) CLOCKS_PER_SEC);
+	} else {
+	temp = (float) ((long) 1000* dur)/((float)CLOCKS_PER_SEC);
+	temp /= (float)1000;
+}
+	printf("Runtime: %1.3lf s\n", temp);
 }
 
 void main(int argc, char *argv[]) {
-	//0 indicates a match
 	if (argc > 1) {
+		// Looking for the solution to a problem
 		if (strcmp(argv[1], "-p") == 0) {
-			//printf("Success\n");
 			if (argc > 2) {
+				// This feels a bit too repetitive, but it works
+				time_t start;
+				start = clock();
 				if (strcmp(argv[2],"1") == 0) {
 					result(P001());
 				} else if (strcmp(argv[2],"2") == 0) {
@@ -225,7 +257,7 @@ void main(int argc, char *argv[]) {
 				} else if (strcmp(argv[2],"9") == 0) {
           result(P009());
         } else if (strcmp(argv[2],"10") == 0) {
-          resultLL(P010());
+          resultL(P010());
         } else if (strcmp(argv[2],"11") == 0) {
           result(P011());
         } else if (strcmp(argv[2],"12") == 0) {
@@ -251,6 +283,8 @@ void main(int argc, char *argv[]) {
 				} else {
 					printf("Not Solved\n");
 				}
+				int dur = clock()-start;
+				runTime(dur);
 			} else {
 				printf("Invalid number of args\n");
 			}

@@ -1,4 +1,6 @@
 #include <math.h>
+#include <time.h>
+#include <stdlib.h>
 #include "./libs/grid.c"
 #include "./libs/consts.h"
 #include "./libs/numString.c"
