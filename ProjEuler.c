@@ -39,31 +39,35 @@ long P002() {
 	return sum;
 }
 
-//
+//Checked
 long P003() {
 	long num=600851475143;
 	return largestPrimeFactor(num);
 }
 
+//Checked
 long P004() {
 	int maxDig=3;
 	return (long) largestPalindrome(maxDig,maxDig);
 }
 
+//Checked
 long P005() {
 	int min=1;
 	int max=20;
 	return (long) leastCommonMult(min, max);
 }
 
+//Checked
 long P006() {
 	long min=1;
 	long max=100;
 	return (squareSum(min,max) - sumSquare(min,max));
 }
 
+//Checked
 long P007() {
-	int index=10001;
+	long index=10001;
 	return primeByIndex(index);
 }
 
@@ -100,9 +104,6 @@ long P011() {
     }
   }
 
-
-
-  //return (long) thingShit(dimX, dimY, point, nums);
   return largestAdjProd(dimX, dimY, point, nums);
 }
 

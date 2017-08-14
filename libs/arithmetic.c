@@ -75,7 +75,7 @@ long sumMultiples(long n1, long n2, long bound) {
 long fibonacciNum(long idx) {
 
   if (idx < 0) {
-    printf("Invalid Value - fibonacciNum - idx=%d\n",idx);
+    printf("Invalid Value - fibonacciNum - idx=%ld\n",idx);
     return (long) -1;
   }
 
@@ -98,8 +98,8 @@ long fibonacciNum(long idx) {
 }
 
 /*
- *  Relies: P003
- * Returns -1 if no factor found
+ *  Relies: (none)
+ *  Returns -1 if no factor found
  */
 long largestFactor(long num) {
 
@@ -115,38 +115,49 @@ long largestFactor(long num) {
 	return soln;
 }
 
-int isPrime(double num) {
+/*
+ *  Relies: largestPrimeFactor
+ *  Requires: num > 0
+ *  Returns 1 if prime, 0 if composite, -1 otherwise
+ *  Note: This function returns an int
+ */
+int isPrime(long num) {
 
-    double fact = 2;
-    double div = 1;
-	double sqroot=sqrt(num);
+  if (num < 1) {
+    printf("Invalid Value - isPrime - num=%ld\n",num);
+    return (long) -1;
+  }
+
+  long fact = 2;
+  int div = 1;
+	long sqroot=sqrt(num);
 
     while (fact <= sqroot) {
-        //printf("\tnum=%.0lf\ttemp=%.0lf\n",num,fact);
         if (fmod(num, fact) == 0) {
             div = 0;
-            //printf("\t\tnum=%.0lf \tfact=%.0lf\n",num,div);
             break;
         }
         fact+=1;
+        if (fact < 1) {
+          return (long) -1;
+        }
     }
     return div;
 }
 
 /*
- *  Relies: P003
- *  Requires: num >
+ *  Relies: P003, primeByIndex
+ *  Requires: num > 0
  *  Return the largest prime factor
  *  Return -1 if the factor isn't found
  */
-double largestPrimeFactor(double num) {
+long largestPrimeFactor(long num) {
 
-    double div = 1;
-    double primeFact = -1;
+    long div = 1;
+    long primeFact = -1;
 
     while (div <= num && div > 0) {
         if (fmod(num,div) == 0) {
-            //printf("num=%.0lf\tdiv=%.0lf\n",num,div);
             if (isPrime(num / div) == 1) {
                 primeFact = num / div;
                 break;
@@ -159,64 +170,106 @@ double largestPrimeFactor(double num) {
     return primeFact;
 }
 
-int numDig(double num) {
-    int count = 0;
+/*
+ *  Relies: isPalindrome, maxValByDig
+ *  Requires: num >= 0
+ *  Returns -1 if error
+ *
+ */
+long numDig(long num) {
+    if (num < 0) {
+        printf("Invalid Value - numDig - num=%ld\n",num);
+        return (long) -1;
+    }
+
+    if (num == 0) {
+        return (long) 1;
+    }
+
+    long count = 0;
     while(num >= 1) {
         num/=10;
-        count ++;
-        //printf("num=%.0lf\tcount=%d\n",num,count);
+        count+=1;
+        if (count < 0) {
+            return (long) -1;
+        }
     }
     return count;
 }
 
-int isPalindrome(int num) {
+/*
+ *  Relies: largestPalindrome
+ *  Requires: num > 0
+ *  Return 1 if num is a palindrome, 0 otherwise, -1 if error
+ *  Note: Returns an int
+ */
+int isPalindrome(long num) {
+  if (num < 0) {
+    printf("Invalid Value - isPalindrome - num=%ld\n",num);
+    return (long) -1;
+  }
 
-    int len = numDig((double) num);
-    int numArr[len];
-    int temp=0;
-    for (int i=0; i<len; i++) {
-        numArr[i] = (int) ((double) num / pow(10, len-i-1));
+  long len = numDig(num);
+  long numArr[len];
+  long temp=0;
+  long i;
+  for (i=0; i<len; i++) {
+    numArr[i] = (num / pow(10, len-i-1));
+    temp = (numArr[i] * pow(10, len-i-1));
+    num -= temp;
+  }
 
-        temp = (int) (numArr[i] * pow(10, len-i-1));
-        num -= (double) temp;
-        //printf("num1: %d\n", temp);
-    }
-
-    int pal = 1;
-    for (int i=0; i<(int)(len/2); i++) {
-        //printf("num1=%d\tnum2=%d\n",numArr[i],numArr[len-i-1]);
-        if (numArr[i] != numArr[len-i-1]) {
-            pal=0;
-            break;
-        }
-    }
-    return pal;
+  int pal = 1;
+  for (i=0; i<(int)(len/2); i++) {
+    if (numArr[i] != numArr[len-i-1]) {
+      pal=0;
+      break;
+      }
+  }
+  return pal;
 }
 
-//Need to rename this...
-int upperBound(int maxDig) {
+/*
+ *  Relies: largestPalindrome
+ *  Requires: maxDig > 1
+ *  Return the largest prime factor
+ *  Return -1 if the factor isn't found
+ */
+long maxValByDig(long maxDig) {
+
+    if (maxDig < 1) {
+        printf("Invalid Value - maxValByDig - maxDig=%ld\n",maxDig);
+    }
 
     //Get the largest possible palindrome based on digit count
-    int limit=0;
-    for (int i=1; numDig(i) <= maxDig; i=((i*10)+1)) {
-        //do nothing
+    long limit=0;
+    long i;
+    for (i=1; numDig(i) <= maxDig; i=((i*10)+1)) {
         limit = i;
-        //printf("temp=%d\n",temp);
     }
     limit*=9;
 
     return limit;
 }
 
-//Returns the largest palindrome that's the product of 2 ints.
-int largestPalindrome(int xNumDig, int yNumDig) {
+/*
+ *  Relies: P004
+ *  xNumDig - number of digits in x, yNumDig - number of digits in y
+ *  Find the largest palindrome, z, such that z=x*y
+ *  Return -1 if error
+ */
+long largestPalindrome(long xNumDig, long yNumDig) {
 
-    int result=-1;
-    int resX=0;
-    int resY=0;
-    for (int x=upperBound(xNumDig); x>upperBound(xNumDig-1); x--) {
-        for (int y=x; y>upperBound(yNumDig-1); y--) {
-            int prod = x*y;
+  if (xNumDig < 1 || yNumDig < 1) {
+    printf("Invalid Values - largestPalindrome - xNumDig=%ld, yNumDig=%ld\n",xNumDig, yNumDig);
+  }
+
+    long result=-1;
+    long resX=0, resY=0;
+    long x=0, y=0;
+    for (x=maxValByDig(xNumDig); x>maxValByDig(xNumDig-1); x--) {
+        for (y=x; y>maxValByDig(yNumDig-1); y--) {
+            long prod = x*y;
             //printf("x=%d\ty=%d\tresult=%d\n",x,y,result);
             if (isPalindrome(prod) == 1) {
                 if (prod > result) {
@@ -239,62 +292,112 @@ int largestPalindrome(int xNumDig, int yNumDig) {
 
 }
 
-//Return the LCM of the numbers in a range
-int leastCommonMult(int min, int max) {
+/*
+ *  Relies: P005
+ *  min is lower bound, max is upper bound (inclusive)
+ *  Find the LCM of a sequential range
+ *  Return -1 if error
+ *  Note: overflow can occur pretty early
+ */
+long leastCommonMult(long min, long max) {
 
-    int count = max-min+1;
-    int nums[count];
+    long count = max-min+1;
+    if (max < min || count < 0) {
+      printf("Invalid Values - leastCommonMult - min=%ld, max=%ld, count=%ld\n", min, max, count);
+      return (long) -1;
+    }
+    long nums[count];
 
-    for (int i=min; i<=max; i++) {
+    long i;
+    for (i=min; i<=max; i++) {
         nums[i-min] = i;
-        //printf("nums=%d\n",nums[i-min]);
     }
 
-    int lcm=1;
-    for (int i=0; i<count; i++) {
-        for (int j=i+1; j<count; j++) {
-            //printf("nums[i]=%d\tnums[j]=%d\n",nums[i],nums[j]);
+    long lcm=1;
+    for (i=0; i<count; i++) {
+        long j;
+        for (j=i+1; j<count; j++) {
             if (nums[j] % nums[i] == 0) {
                 nums[j] /= nums[i];
-                //lcm *= nums[i];
             }
         }
         lcm*=nums[i];
-        //printf("lcm=%d\n",lcm);
+        if (lcm < 0) {
+            return (long) -1;
+        }
     }
     return lcm;
 }
 
-double sumSquare(double min, double max) {
-    double sum=0;
-
-    for (int i=(int) min; i <= (int) max; i++) {
-        sum += (double) i*i;
+/*
+ *  Relies: P006
+ *  min is the lower bound, max is the upper bound (inclusive)
+ *  Find the sum of the squares of numbers in a range
+ *  Return -1 if error
+ */
+long sumSquare(long min, long max) {
+    if (max < min) {
+      printf("Invalid Values - sumSquare - min=%ld, max=%ld\n", min, max);
+      return (long) -1;
     }
+    long sum=0;
 
+    long i;
+    for (i=min; i<=max; i++) {
+        sum += i*i;
+        if (sum < 0) {
+          return (long) -1;
+        }
+    }
     return sum;
 }
 
-double squareSum(double min, double max) {
-    double sum=0;
-
-    for (int i=(int) min; i <= (int) max; i++) {
-        sum += (double) i;
+/*
+ *  Relies: P006
+ *  min is the lower bound, max is the upper bound (inclusive)
+ *  Find the square of the sum of numbers in a range
+ *  Return -1 if error
+ */
+long squareSum(long min, long max) {
+    if (max < min) {
+      printf("Invalid Values - squareSum - min=%ld, max=%ld\n", min, max);
+      return (long) -1;
     }
+    long sum=0;
+
+    long i;
+    for (i=min; i<=max; i++) {
+        sum += i;
+        }
 
     sum *= sum;
 
+    if (sum < 0) {
+      return (long) -1;
+    }
+
     return sum;
 }
 
-double primeByIndex(int index) {
-    int idx=0;
-    double num=1;
+/*
+ *  Relies: P007
+ *  Requires index > 0
+ *  Return the n'th prime number, indexed at 1
+ *  Return -1 if error
+ */
+long primeByIndex(long index) {
+    if (index < 1) {
+        printf("Invalid Value - primeByIndex - index=%ld\n", index);
+    }
+    long idx=0;
+    long num=1;
     while (idx<index) {
         num+=1;
-        //printf("num=%.0lf\n",num);
         if (isPrime(num) == 1) {
             idx++;
+            if (idx < 0) {
+              return (long) -1;
+            }
         }
     }
     return num;
